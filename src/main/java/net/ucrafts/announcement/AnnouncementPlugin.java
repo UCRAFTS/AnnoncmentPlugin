@@ -1,10 +1,9 @@
 package net.ucrafts.announcement;
 
 import co.aikar.commands.PaperCommandManager;
+import lombok.Getter;
 import net.ucrafts.announcement.commands.RandomMessageCommand;
 import net.ucrafts.announcement.commands.ReloadCommand;
-import net.ucrafts.announcement.database.AbstractDataSource;
-import net.ucrafts.announcement.database.MySQLDataSource;
 import net.ucrafts.announcement.listeners.PlayerDeathListener;
 import net.ucrafts.announcement.listeners.PlayerJoinListener;
 import net.ucrafts.announcement.listeners.WorldListener;
@@ -12,8 +11,10 @@ import net.ucrafts.announcement.managers.AdManager;
 import net.ucrafts.announcement.tasks.AdTask;
 import net.ucrafts.announcement.tasks.AdUpdateTask;
 import net.ucrafts.announcement.types.ConfigType;
+import net.ucrafts.server.pools.impl.PoolsPluginImpl;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.java.annotation.dependency.Dependency;
 import org.bukkit.plugin.java.annotation.plugin.Description;
 import org.bukkit.plugin.java.annotation.plugin.Plugin;
 import org.bukkit.plugin.java.annotation.plugin.author.Author;
@@ -24,22 +25,16 @@ import org.bukkit.plugin.java.annotation.plugin.author.Author;
 )
 @Author(value = "oDD1 / Alexander Repin")
 @Description(value = "Announcement manager plugin")
+@Dependency(value = "upools-bukkit")
 public class AnnouncementPlugin extends JavaPlugin {
 
-
+    @Getter
     private static AnnouncementPlugin instance;
+
+    @Getter
     private static AdManager adManager;
 
     private Config config;
-    private AbstractDataSource dataSource;
-
-    public static AnnouncementPlugin getInstance() {
-        return AnnouncementPlugin.instance;
-    }
-
-    public static AdManager getAdManager() {
-        return AnnouncementPlugin.adManager;
-    }
 
     @Override
     public void onEnable() {
@@ -48,10 +43,11 @@ public class AnnouncementPlugin extends JavaPlugin {
         this.config = new Config(this);
         this.config.init();
 
-        this.dataSource = new MySQLDataSource(this.config);
-
-        AnnouncementPlugin.adManager = new AdManager(this.config, this.dataSource);
-        AnnouncementPlugin.adManager.load();
+        adManager = new AdManager(
+                this.config,
+                PoolsPluginImpl.getInstance().getJdbcHandler()
+        );
+        adManager.load();
 
         this.registerCommands();
         this.registerListeners();
@@ -68,13 +64,11 @@ public class AnnouncementPlugin extends JavaPlugin {
         }
     }
 
-
     private void registerCommands() {
         PaperCommandManager commandManager = new PaperCommandManager(this);
         commandManager.registerCommand(new ReloadCommand(this.config, AnnouncementPlugin.adManager));
         commandManager.registerCommand(new RandomMessageCommand(AnnouncementPlugin.adManager));
     }
-
 
     private void registerListeners() {
         if (this.config.getConfig().getBoolean(ConfigType.FEATURE_JOIN_ENABLE.getName())) {
@@ -90,9 +84,4 @@ public class AnnouncementPlugin extends JavaPlugin {
         }
     }
 
-
-    @Override
-    public void onDisable() {
-        this.dataSource.close();
-    }
 }

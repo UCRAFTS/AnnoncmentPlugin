@@ -2,25 +2,19 @@ package net.ucrafts.announcement;
 
 import de.leonhard.storage.Json;
 import de.leonhard.storage.internal.FlatFile;
+import lombok.Getter;
 import net.ucrafts.announcement.types.ConfigType;
 
 public class Config {
 
-
+    @Getter
     private final FlatFile config;
-
 
     public Config(AnnouncementPlugin plugin) {
         this.config = new Json("config", plugin.getDataFolder().getPath());
     }
 
-
     public void init() {
-        this.config.setDefault(ConfigType.DB_HOST.getName(), "127.0.0.1");
-        this.config.setDefault(ConfigType.DB_PORT.getName(), 3306);
-        this.config.setDefault(ConfigType.DB_BASE.getName(), "servers");
-        this.config.setDefault(ConfigType.DB_USER.getName(), "user");
-        this.config.setDefault(ConfigType.DB_PASS.getName(), "secret");
         this.config.setDefault(ConfigType.DB_TABLES_PREFIX.getName(), "announcement");
         this.config.setDefault(ConfigType.DB_UPDATED_PERIOD.getName(), 60);
         this.config.setDefault(ConfigType.SERVER.getName(), "global");
@@ -38,8 +32,4 @@ public class Config {
         this.config.setDefault(ConfigType.FEATURE_FEATURE_HIDE_ACHIEVEMENTS_ENABLE.getName(), true);
     }
 
-
-    public FlatFile getConfig() {
-        return this.config;
-    }
 }

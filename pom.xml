@@ -27,23 +27,21 @@
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
+        <repository>
+            <id>ucrafts-plugins-dev</id>
+            <url>http://maven.dev.ucrafts.net:8081/repository/plugins-dev/</url>
+        </repository>
     </repositories>
     <dependencies>
-        <dependency>
-            <groupId>com.zaxxer</groupId>
-            <artifactId>HikariCP</artifactId>
-            <version>2.4.1</version>
-            <scope>compile</scope>
-        </dependency>
         <dependency>
             <groupId>com.github.simplix-softworks</groupId>
             <artifactId>SimplixStorage</artifactId>
             <version>3.2.1</version>
         </dependency>
         <dependency>
-            <groupId>org.yatopiamc</groupId>
-            <artifactId>yatopia-api</artifactId>
-            <version>1.16.4-R0.1-SNAPSHOT</version>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot-api</artifactId>
+            <version>1.17.1-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -56,35 +54,61 @@
             <artifactId>plugin-annotations</artifactId>
             <version>1.2.3-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>net.ucrafts</groupId>
+            <artifactId>upools-api</artifactId>
+            <version>1.0.2</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.20</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
             <plugin>
-                <version>3.7.0</version>
+                <version>3.8.1</version>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                    <compilerArgs>
-                        <arg>-parameters</arg>
-                    </compilerArgs>
+                    <release>11</release>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.1.1</version>
+                <version>3.2.4</version>
                 <configuration>
-                    <dependencyReducedPomLocation>${project.build.directory}/dependency-reduced-pom.xml</dependencyReducedPomLocation>
+                    <createDependencyReducedPom>false</createDependencyReducedPom>
+                    <transformers>
+                        <transformer
+                                implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
+                        <transformer
+                                implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                        </transformer>
+                    </transformers>
+                    <filters>
+                        <!-- Trash from dependencies -->
+                        <filter>
+                            <artifact>*:*</artifact>
+                            <excludes>
+                                <exclude>META-INF/license/**</exclude>
+                                <exclude>META-INF/*</exclude>
+                                <exclude>META-INF/maven/**</exclude>
+                                <exclude>LICENSE</exclude>
+                                <exclude>NOTICE</exclude>
+                                <exclude>/*.txt</exclude>
+                                <exclude>build.properties</exclude>
+                            </excludes>
+                        </filter>
+                    </filters>
                     <relocations>
                         <relocation>
                             <pattern>co.aikar.commands</pattern>
                             <shadedPattern>net.ucrafts.announcement.libs.acf</shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>com.zaxxer</pattern>
-                            <shadedPattern>net.ucrafts.announcement.hikari</shadedPattern>
                         </relocation>
                         <relocation>
                             <pattern>co.aikar.locales</pattern>
@@ -92,7 +116,7 @@
                         </relocation>
                         <relocation>
                             <pattern>de.leonhard.storage</pattern>
-                            <shadedPattern>net.ucrafts.announcement.storage</shadedPattern>
+                            <shadedPattern>net.ucrafts.onlinelogger.libs.storage</shadedPattern>
                         </relocation>
                     </relocations>
                 </configuration>
