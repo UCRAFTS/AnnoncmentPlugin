@@ -24,8 +24,7 @@ import org.bukkit.plugin.java.annotation.plugin.author.Author;
 )
 @Author(value = "oDD1 / Alexander Repin")
 @Description(value = "Announcement manager plugin")
-public class AnnouncementPlugin extends JavaPlugin
-{
+public class AnnouncementPlugin extends JavaPlugin {
 
 
     private static AnnouncementPlugin instance;
@@ -34,10 +33,16 @@ public class AnnouncementPlugin extends JavaPlugin
     private Config config;
     private AbstractDataSource dataSource;
 
+    public static AnnouncementPlugin getInstance() {
+        return AnnouncementPlugin.instance;
+    }
+
+    public static AdManager getAdManager() {
+        return AnnouncementPlugin.adManager;
+    }
 
     @Override
-    public void onEnable()
-    {
+    public void onEnable() {
         AnnouncementPlugin.instance = this;
 
         this.config = new Config(this);
@@ -53,17 +58,7 @@ public class AnnouncementPlugin extends JavaPlugin
         this.registerTasks();
     }
 
-
-    public static AnnouncementPlugin getInstance()
-    {
-        return AnnouncementPlugin.instance;
-    }
-
-    public static AdManager getAdManager() { return AnnouncementPlugin.adManager; }
-
-
-    private void registerTasks()
-    {
+    private void registerTasks() {
         if (this.config.getConfig().getBoolean(ConfigType.FEATURE_AD_ENABLE.getName())) {
             int notifyPeriod = (this.config.getConfig().getInt(ConfigType.FEATURE_AD_PERIOD.getName()) * 60) * 20;
             int updatePeriod = (this.config.getConfig().getInt(ConfigType.DB_UPDATED_PERIOD.getName()) * 60) * 20;
@@ -74,16 +69,14 @@ public class AnnouncementPlugin extends JavaPlugin
     }
 
 
-    private void registerCommands()
-    {
+    private void registerCommands() {
         PaperCommandManager commandManager = new PaperCommandManager(this);
         commandManager.registerCommand(new ReloadCommand(this.config, AnnouncementPlugin.adManager));
         commandManager.registerCommand(new RandomMessageCommand(AnnouncementPlugin.adManager));
     }
 
 
-    private void registerListeners()
-    {
+    private void registerListeners() {
         if (this.config.getConfig().getBoolean(ConfigType.FEATURE_JOIN_ENABLE.getName())) {
             Bukkit.getPluginManager().registerEvents(new PlayerJoinListener(this.config), this);
         }
@@ -99,8 +92,7 @@ public class AnnouncementPlugin extends JavaPlugin
 
 
     @Override
-    public void onDisable()
-    {
+    public void onDisable() {
         this.dataSource.close();
     }
 }

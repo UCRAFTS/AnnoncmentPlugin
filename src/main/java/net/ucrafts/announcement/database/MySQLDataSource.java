@@ -9,15 +9,13 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 
-public class MySQLDataSource extends AbstractDataSource implements DataSourceInterface
-{
+public class MySQLDataSource extends AbstractDataSource implements DataSourceInterface {
 
 
     protected String driverClassName = "com.mysql.jdbc.Driver";
 
 
-    public MySQLDataSource(Config config)
-    {
+    public MySQLDataSource(Config config) {
         super(config);
 
         if (this.dataSource != null) {
@@ -49,11 +47,10 @@ public class MySQLDataSource extends AbstractDataSource implements DataSourceInt
     }
 
 
-    private void createTables()
-    {
+    private void createTables() {
         String balanceTable = String.format(
-            "CREATE TABLE IF NOT EXISTS `%s_ad` (`text` text NOT NULL, `server` varchar(36) NOT NULL, `type` varchar(36) NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;",
-            this.config.getConfig().getString(ConfigType.DB_TABLES_PREFIX.getName())
+                "CREATE TABLE IF NOT EXISTS `%s_ad` (`text` text NOT NULL, `server` varchar(36) NOT NULL, `type` varchar(36) NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;",
+                this.config.getConfig().getString(ConfigType.DB_TABLES_PREFIX.getName())
         );
 
         try (Connection connection = this.getConnection()) {

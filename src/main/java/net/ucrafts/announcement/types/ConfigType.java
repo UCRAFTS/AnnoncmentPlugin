@@ -2,8 +2,7 @@ package net.ucrafts.announcement.types;
 
 import org.jetbrains.annotations.NotNull;
 
-public enum ConfigType
-{
+public enum ConfigType {
 
 
     DB_HOST("db.host"),
@@ -31,14 +30,12 @@ public enum ConfigType
     private final String name;
 
 
-    ConfigType(@NotNull final String name)
-    {
+    ConfigType(@NotNull final String name) {
         this.name = name;
     }
 
 
-    public String getName()
-    {
+    public String getName() {
         return this.name;
     }
 }

@@ -2,7 +2,6 @@ package net.ucrafts.announcement.managers;
 
 import net.ucrafts.announcement.AnnouncementPlugin;
 import net.ucrafts.announcement.Config;
-import net.ucrafts.announcement.Utils;
 import net.ucrafts.announcement.database.AbstractDataSource;
 import net.ucrafts.announcement.types.ConfigType;
 import org.bukkit.Bukkit;
@@ -13,24 +12,18 @@ import java.sql.ResultSet;
 import java.util.HashSet;
 import java.util.Random;
 
-public class AdManager
-{
-
+public class AdManager {
 
     private final Config config;
     private final AbstractDataSource dataSource;
     private final HashSet<String> messages = new HashSet<>();
 
-
-    public AdManager(Config config, AbstractDataSource dataSource)
-    {
+    public AdManager(Config config, AbstractDataSource dataSource) {
         this.config = config;
         this.dataSource = dataSource;
     }
 
-
-    public void load()
-    {
+    public void load() {
         this.messages.clear();
 
         String query = String.format(
@@ -53,15 +46,11 @@ public class AdManager
         });
     }
 
-
-    public boolean hasMessages()
-    {
+    public boolean hasMessages() {
         return !this.messages.isEmpty();
     }
 
-
-    public String getRandomMessage()
-    {
+    public String getRandomMessage() {
         if (!this.hasMessages()) {
             return null;
         }
@@ -71,4 +60,5 @@ public class AdManager
 
         return String.valueOf(array[rnd]);
     }
+
 }

@@ -16,22 +16,19 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.util.Collection;
 
-public class PlayerJoinListener implements Listener
-{
+public class PlayerJoinListener implements Listener {
 
 
     private final Config config;
 
 
-    public PlayerJoinListener(Config config)
-    {
+    public PlayerJoinListener(Config config) {
         this.config = config;
     }
 
 
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = false)
-    public void onPlayerJoin(final PlayerJoinEvent event)
-    {
+    public void onPlayerJoin(final PlayerJoinEvent event) {
         event.setJoinMessage(null);
 
         this.sendMessage(event.getPlayer(), true);
@@ -39,23 +36,21 @@ public class PlayerJoinListener implements Listener
 
 
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = false)
-    public void onPlayerQuit(final PlayerQuitEvent event)
-    {
+    public void onPlayerQuit(final PlayerQuitEvent event) {
         event.setQuitMessage(null);
 
         this.sendMessage(event.getPlayer(), false);
     }
 
 
-    private void sendMessage(Player player, boolean isJoin)
-    {
+    private void sendMessage(Player player, boolean isJoin) {
         Collection<? extends Player> players = Bukkit.getOnlinePlayers();
         boolean isActionBar = this.config.getConfig().getBoolean(ConfigType.FEATURE_JOIN_ACTION_BAR.getName());
         String message = String.format(
                 this.config.getConfig().getString(
                         isJoin
-                            ? ConfigType.FEATURE_JOIN_FORMAT.getName()
-                            : ConfigType.FEATURE_JOIN_LEFT_FORMAT.getName()
+                                ? ConfigType.FEATURE_JOIN_FORMAT.getName()
+                                : ConfigType.FEATURE_JOIN_LEFT_FORMAT.getName()
                 ),
                 player.getName()
         );

@@ -6,20 +6,17 @@ import org.jetbrains.annotations.NotNull;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Utils
-{
+public class Utils {
 
 
-    public static String colorize(@NotNull final String message)
-    {
+    public static String colorize(@NotNull final String message) {
         return Utils.translateHexColorCodes(
                 ChatColor.translateAlternateColorCodes('&', message.replace("&s", "\n "))
         );
     }
 
 
-    public static String translateHexColorCodes(@NotNull final String message)
-    {
+    public static String translateHexColorCodes(@NotNull final String message) {
         final Pattern hexPattern = Pattern.compile("&#([A-Fa-f0-9]{6})");
         final char colorChar = ChatColor.COLOR_CHAR;
         final Matcher matcher = hexPattern.matcher(message);

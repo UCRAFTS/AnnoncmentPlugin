@@ -12,22 +12,19 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 
-public class PlayerDeathListener implements Listener
-{
+public class PlayerDeathListener implements Listener {
 
 
     private final Config config;
 
 
-    public PlayerDeathListener(Config config)
-    {
+    public PlayerDeathListener(Config config) {
         this.config = config;
     }
 
 
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = false)
-    public void onPlayerDeath(final PlayerDeathEvent event)
-    {
+    public void onPlayerDeath(final PlayerDeathEvent event) {
         event.setDeathMessage(null);
 
         Player player = event.getEntity();

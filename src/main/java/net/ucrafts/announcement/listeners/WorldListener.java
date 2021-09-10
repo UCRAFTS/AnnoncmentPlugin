@@ -5,13 +5,11 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.world.WorldLoadEvent;
 
-public class WorldListener implements Listener
-{
+public class WorldListener implements Listener {
 
 
     @EventHandler(priority = EventPriority.HIGH)
-    public void onPlayerJoin(final WorldLoadEvent event)
-    {
+    public void onPlayerJoin(final WorldLoadEvent event) {
         event.getWorld().setGameRuleValue("announceAdvancements", "false");
     }
 }

@@ -10,8 +10,7 @@ import net.ucrafts.announcement.types.ConfigType;
 import org.bukkit.command.CommandSender;
 
 @CommandAlias("anncm")
-public class ReloadCommand extends BaseCommand
-{
+public class ReloadCommand extends BaseCommand {
 
 
     private final Config config;
@@ -19,16 +18,14 @@ public class ReloadCommand extends BaseCommand
     private final AdManager adManager;
 
 
-    public ReloadCommand(Config config, AdManager adManager)
-    {
+    public ReloadCommand(Config config, AdManager adManager) {
         this.config = config;
         this.adManager = adManager;
     }
 
 
     @Subcommand("reload")
-    public void onReload(CommandSender sender)
-    {
+    public void onReload(CommandSender sender) {
         if (sender.isOp()) {
             // todo: incorrect
             this.config.init();

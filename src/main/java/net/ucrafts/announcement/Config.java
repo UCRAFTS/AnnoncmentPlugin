@@ -4,21 +4,18 @@ import de.leonhard.storage.Json;
 import de.leonhard.storage.internal.FlatFile;
 import net.ucrafts.announcement.types.ConfigType;
 
-public class Config
-{
+public class Config {
 
 
     private final FlatFile config;
 
 
-    public Config(AnnouncementPlugin plugin)
-    {
+    public Config(AnnouncementPlugin plugin) {
         this.config = new Json("config", plugin.getDataFolder().getPath());
     }
 
 
-    public void init()
-    {
+    public void init() {
         this.config.setDefault(ConfigType.DB_HOST.getName(), "127.0.0.1");
         this.config.setDefault(ConfigType.DB_PORT.getName(), 3306);
         this.config.setDefault(ConfigType.DB_BASE.getName(), "servers");
@@ -42,8 +39,7 @@ public class Config
     }
 
 
-    public FlatFile getConfig()
-    {
+    public FlatFile getConfig() {
         return this.config;
     }
 }
